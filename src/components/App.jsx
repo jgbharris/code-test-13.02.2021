@@ -32,28 +32,35 @@ function App() {
 
   let posts = data.posts
 
+  let categoriesAll = []
+
+  if (posts) {
+    for (let i = 0; i < posts.length; i++) {
+      // console.log(posts[i]["categories"])
+      posts[i]["categories"].map((category) => {
+        categoriesAll.push(category.name)
+      })
+    };
+  }
+
+  console.log(categoriesAll)
+  let uniqueCategories = [...new Set(categoriesAll)];
+  console.log(uniqueCategories)
+  console.log(uniqueCategories[0])
+
+
+
   return (
     <div>
       <form className="filter">
         <label for="category">Choose a category:</label>
         <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}> {/*listens for when input field is changed*/}
-          <option value="all">All</option>
-          <option value="jacket">Jackets</option>
-          <option value="jean">Jeans</option>
-          <option value="pant">Pants</option>
-          <option value="dress">Dresses</option>
-          <option value="shoe">Shoes</option>
-          <option value="sock">Socks</option>
-          <option value="swimwear">Swimwear</option>
-          <option value="handbag">Hand Bag</option>
-          <option value="formalwear">Formal Wear</option>
-          <option value="sweater">Sweater</option>
-          <option value="hat">Hats</option>
-          <option value="baby">Baby</option>
-
-
+        {uniqueCategories.map((option) => (
+           <option value="option">{option}</option>
+        ))}
         </select>
       </form>
+      
       <h1>From Component</h1>
       <ul>
         {posts ? posts.map((post) => (

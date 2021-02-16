@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import ListItem from "./ListItem.jsx"
 
 function App() {
 
@@ -19,17 +20,27 @@ function App() {
   let posts = data.posts
 
   return (
-    <ul>
-      {posts ? posts.map((post) => (
-          <li key={post.id}>
-          <p>Title: {post.title}</p>
-          <p>Summary: {post.summary}</p>
-          <p>Author: {post.author.name}</p>
-          <p>Date: {post.publishDate}</p>
-          <p>Categories: {post.categories.map((category, index) => <a key={index}>{category.name}</a>)}</p>
-          </li>
-      )) : null}
-    </ul>
+    <div>
+      <h1>From Component</h1>
+      <ul>
+        {posts ? posts.map((post) => (
+          <ListItem
+            key={post.id}
+            title={post.title}
+            summary={post.summary}
+            author={post.author.name}
+            date={post.publishDate}
+            categories={post.categories.map((category, index) => <a key={index}>{category.name}</a>)} />
+        )) : null}
+      </ul>
+
+
+    </div>
+
+
+
+
+
   )
 }
 

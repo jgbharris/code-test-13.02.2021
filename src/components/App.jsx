@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import ListItem from "./ListItem.jsx"
 import { ConsoleWriter } from "istanbul-lib-report";
+import "./App.css";
 
 function App() {
 
@@ -32,7 +33,6 @@ function App() {
 
   //Dropdown filter change
 
-  //need to change this to simple if statement
   const handleFilterChange = (e, filterType) => {
     switch (filterType) {
       case "category":
@@ -47,7 +47,7 @@ function App() {
   //---------------------------------------------------------------------------------------------------------------
 
 
-  //Takes categories from data, loops over them and pushes them into category array. Duplicates are removed and then used for dropdown options - Dropdown should then change if additional categories are added
+  //Takes categories from data, loops over them and pushes them into category array. Duplicates are removed and then used for dropdown options - Dropdown should then change dynamically if additional categories are added to the api response
 
   let categoriesAll = []
 
@@ -85,23 +85,24 @@ function App() {
 
   console.log("filteredPosts", filteredPosts)
 
-   //---------------------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------------------
 
   return (
-   
-    <div>
-       <h1>Post Filter App</h1>
-      <form className="filter">
-        <label for="category">Choose a category:</label>
-        <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}>
-        <option value="all">All</option>
-          {uniqueCategories.map((option) => (
-            <option value={option}>{option}</option>
-          ))}
-        </select>
-      </form>
 
-    
+    <div>
+      <h1>Post Filter App</h1>
+      <div className="formContainer">
+        <form className="filter">
+          <label for="category">Choose a category:</label>
+          <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}>
+            <option value="all">All</option>
+            {uniqueCategories.map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </select>
+        </form>
+      </div>
+
       <ul>
         {filteredPosts ? filteredPosts.map((post, index) => (
           <ListItem

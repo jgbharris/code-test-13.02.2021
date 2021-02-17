@@ -1,15 +1,19 @@
 import React from 'react';
+import "./ListItem.css";
 
 function ListItem(props) {
-    
+
     return (
-        <li key={props.id}>
-            <p>Title: {props.title}</p>
-            <p>Summary: {props.summary}</p>
-            <p>Author: {props.author}</p>
-            <p>Date: {props.date}</p>
-            <div>Categories:{props.categories}</div>
-        </li>
+        <div className="listItemContainer">
+            <li key={props.id}>
+                <div><p className="postSection">Title:</p> {props.title}</div>
+                <div><p className="postSection">Summary:</p> {props.summary}</div>
+                <div><p className="postSection">Author:</p> {props.author}</div>
+                <div><p className="postSection">Date:</p> {props.date}</div>
+                <div><p className="postSection">Categories:</p>{props.categories}</div>
+            </li>
+        </div>
+
     )
 }
 

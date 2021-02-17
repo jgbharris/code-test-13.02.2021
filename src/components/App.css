@@ -1,7 +1,25 @@
+body {
+    background:  #f8f8ff;
+}
+h1 {
+    text-align: center;
+}
+
 .filter {
     margin: auto;
 }
 
 .formContainer {
     margin-left: 3%
+}
+
+.dropdownHeading {
+    font-weight: bold;
+}
+
+select {
+    width: 20%;
+    height: 10% !important;
+    margin-left: 2%;
+    font-size: 16px;
 }

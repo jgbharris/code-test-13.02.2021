@@ -93,8 +93,8 @@ function App() {
       <h1>Post Filter App</h1>
       <div className="formContainer">
         <form className="filter">
-          <label for="category">Choose a category:</label>
-          <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}>
+          <label className="dropdownHeading">Choose a category:</label>
+          <select className="dropdown" name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}>
             <option value="all">All</option>
             {uniqueCategories.map((option) => (
               <option value={option}>{option}</option>

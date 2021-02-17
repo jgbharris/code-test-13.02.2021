@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import ListItem from "./ListItem.jsx"
+import { ConsoleWriter } from "istanbul-lib-report";
 
 function App() {
 
@@ -7,16 +8,8 @@ function App() {
   const [category, setCategory] = useState("all")
 
 
-  //need to change this to simple if statement
-  const handleFilterChange = (e, filterType) => {
-    //changes state 
-    switch (filterType) {
-      case "category":
-        setCategory(e.target.value)
-        break;
-      default: break;
-    }
-  }
+  //API call
+  //---------------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     async function fetchMyAPI() {
@@ -32,6 +25,30 @@ function App() {
 
   let posts = data.posts
 
+  console.log("posts", posts)
+
+  //---------------------------------------------------------------------------------------------------------------
+
+
+  //Dropdown filter change
+
+  //need to change this to simple if statement
+  const handleFilterChange = (e, filterType) => {
+    switch (filterType) {
+      case "category":
+        setCategory(e.target.value)
+        break;
+      default: break;
+    }
+  }
+
+  console.log("Category", category)
+
+  //---------------------------------------------------------------------------------------------------------------
+
+
+  //Takes categories from data, loops over them and pushes them into category array. Duplicates are removed and then used for dropdown options - Dropdown should then change if additional categories are added
+
   let categoriesAll = []
 
   if (posts) {
@@ -43,27 +60,41 @@ function App() {
     };
   }
 
-  console.log(categoriesAll)
   let uniqueCategories = [...new Set(categoriesAll)];
-  console.log(uniqueCategories)
-  console.log(uniqueCategories[0])
+
+  //---------------------------------------------------------------------------------------------------------------
+
+  let filteredPosts = [];
+
+  if (posts) {
+    // eslint-disable-next-line
+    for (let i = 0; i < posts.length; i++) {
+      posts[i]["categories"].map((postCategory) => {
+        // eslint-disable-next-line
+        postCategory.name == category ? filteredPosts.push(posts[i]) : null
+      })
+
+    };
+  }
 
 
+  console.log("filteredPosts", filteredPosts)
 
   return (
     <div>
       <form className="filter">
         <label for="category">Choose a category:</label>
-        <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}> {/*listens for when input field is changed*/}
-        {uniqueCategories.map((option) => (
-           <option value="option">{option}</option>
-        ))}
+        <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}>
+        <option value="all">All</option>
+          {uniqueCategories.map((option) => (
+            <option value={option}>{option}</option>
+          ))}
         </select>
       </form>
-      
+
       <h1>From Component</h1>
       <ul>
-        {posts ? posts.map((post) => (
+        {filteredPosts ? filteredPosts.map((post) => (
           <ListItem
             key={post.id}
             title={post.title}

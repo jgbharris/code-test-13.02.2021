@@ -15,7 +15,6 @@ function App() {
     async function fetchMyAPI() {
       let response = await fetch('api/posts')
       response = await response.json()
-      console.log(response)
       setData(response)
     }
     fetchMyAPI()
@@ -43,7 +42,6 @@ function App() {
 
   if (posts) {
     for (let i = 0; i < posts.length; i++) {
-      // console.log(posts[i]["categories"])
       posts[i]["categories"].map((category) => {
         categoriesAll.push(category.name)
       })

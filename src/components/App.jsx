@@ -1,12 +1,39 @@
 import React, { useState, useEffect } from "react"
 import ListItem from "./ListItem.jsx"
-import { ConsoleWriter } from "istanbul-lib-report";
+import {
+  slice, concat,
+} from 'lodash';
 
 function App() {
-
-  let [data, setData] = useState([])
+  const [data, setData] = useState([])
   const [category, setCategory] = useState("all")
 
+  const postsPerPage = 40;
+  let arrayForHoldingPosts = [];
+  const [postsToShow, setPostsToShow] = useState([]);
+  const [next, setNext] = useState(3);
+
+  const loopWithSlice = (start, end) => {
+    const slicedPosts = filteredPosts.slice(start, end);
+    console.log("slicedPosts", slicedPosts)
+    arrayForHoldingPosts = [...arrayForHoldingPosts, ...slicedPosts];
+    console.log("arrayForHoldingPosts", arrayForHoldingPosts)
+    setPostsToShow(arrayForHoldingPosts);
+  };
+
+  
+  useEffect(() => {
+    loopWithSlice(0, postsPerPage);
+  }, []);
+
+  const handleShowMorePosts = () => {
+    loopWithSlice(next, next + postsPerPage);
+    setNext(next + postsPerPage);
+  };
+
+  // console.log("slicedPosts", slicedPosts)
+  // console.log("arrayForHoldingPosts", arrayForHoldingPosts)
+  // console.log("postsToShow", postsToShow)
 
   //API call
   //---------------------------------------------------------------------------------------------------------------
@@ -85,27 +112,39 @@ function App() {
 
   console.log("filteredPosts", filteredPosts)
 
-   //---------------------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------------------
 
   return (
-   
+
     <div>
-       <h1>Post Filter App</h1>
+      <h1>Post Filter App</h1>
       <form className="filter">
         <label for="category">Choose a category:</label>
         <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}>
-        <option value="all">All</option>
+          <option value="all">All</option>
           {uniqueCategories.map((option) => (
             <option value={option}>{option}</option>
           ))}
         </select>
       </form>
 
-    
-      <ul>
+      {/* <ul>
         {filteredPosts ? filteredPosts.map((post, index) => (
           <ListItem
             key={index}
+            number={index}
+            title={post.title}
+            summary={post.summary}
+            author={post.author.name}
+            date={post.publishDate}
+            categories={post.categories.map((category, index) => <p key={index}>{category.name}</p>)} />
+        )) : null}
+      </ul> */}
+      <ul>
+        {postsToShow ? postsToShow.map((post, index) => (
+          <ListItem
+            key={index}
+            number={index}
             title={post.title}
             summary={post.summary}
             author={post.author.name}
@@ -113,6 +152,7 @@ function App() {
             categories={post.categories.map((category, index) => <p key={index}>{category.name}</p>)} />
         )) : null}
       </ul>
+      <button onClick={handleShowMorePosts}>Load more</button>
     </div>
   )
 }

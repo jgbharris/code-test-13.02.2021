@@ -7,6 +7,12 @@ function App() {
   let [data, setData] = useState([])
   const [category, setCategory] = useState("all")
 
+  const postsPerPage = 10; 
+  const arrayForHoldingPosts = [];
+
+  const [postsToShow, setPostsToShow] = useState([]);
+  const [count, setCount] = useState(1);
+
 
   //API call
   //---------------------------------------------------------------------------------------------------------------
@@ -74,6 +80,39 @@ function App() {
 
   //---------------------------------------------------------------------------------------------------------------
 
+  //Pagination logic
+
+  const loopThroughPosts = (count) => {
+    for (
+      let i = count * postsPerPage - postsPerPage;
+      i < postsPerPage * count;
+      i++
+    ) {
+      if (filteredPosts[i] !== undefined) {
+        arrayForHoldingPosts.push(filteredPosts[i]);
+      }
+    }
+    console.log("postsToShow", posts)
+    console.log("postsToShow", postsToShow)
+    console.log("postsPerPage", postsPerPage)
+    console.log("filteredPosts", filteredPosts)
+    console.log("arrayForHoldingPosts", arrayForHoldingPosts)
+    setPostsToShow(arrayForHoldingPosts);
+    
+  };
+
+  // load the first set of posts when the page loads
+  // and then set the value of count to 2
+  useEffect(() => {
+    setCount((prevCount) => prevCount + 1);
+    loopThroughPosts(count);
+  }, []);
+
+  const handleShowMorePosts = () => {
+    setCount((prevCount) => prevCount + 1);
+    loopThroughPosts(count);
+  };
+
   return (
 
     <div>
@@ -93,6 +132,7 @@ function App() {
       <ul>
         {filteredPosts ? filteredPosts.map((post, index) => (
           <ListItem
+            number={index}
             key={index}
             title={post.title}
             summary={post.summary}
@@ -101,6 +141,7 @@ function App() {
             categories={post.categories.map((category, index) => <p key={index}>{category.name}</p>)} />
         )) : null}
       </ul>
+      <button onClick={handleShowMorePosts}>Load more</button>
     </div>
   )
 }

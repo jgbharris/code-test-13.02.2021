@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import ListItem from "./ListItem.jsx"
-import { ConsoleWriter } from "istanbul-lib-report";
 import "./App.css";
 
 function App() {
@@ -22,14 +21,7 @@ function App() {
     fetchMyAPI()
   }, [])
 
-  console.log("data", data)
-
   let posts = data.posts
-
-  console.log("posts", posts)
-
-  //---------------------------------------------------------------------------------------------------------------
-
 
   //Dropdown filter change
 
@@ -41,8 +33,6 @@ function App() {
       default: break;
     }
   }
-
-  console.log("Category", category)
 
   //---------------------------------------------------------------------------------------------------------------
 
@@ -81,9 +71,6 @@ function App() {
       }
     };
   }
-
-
-  console.log("filteredPosts", filteredPosts)
 
   //---------------------------------------------------------------------------------------------------------------
 

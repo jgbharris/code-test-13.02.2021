@@ -8,7 +8,7 @@ function ListItem(props) {
             <p>Summary: {props.summary}</p>
             <p>Author: {props.author}</p>
             <p>Date: {props.date}</p>
-            <p>Categories: {props.categories}</p>
+            <div>Categories:{props.categories}</div>
         </li>
     )
 }

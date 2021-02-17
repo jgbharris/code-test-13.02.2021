@@ -64,24 +64,33 @@ function App() {
 
   //---------------------------------------------------------------------------------------------------------------
 
+
+  //Filter posts based on match to dropdown - if all selected then all posts pushed into filtered array otherwise maps over categories of each post and if any of cateogry matches the dropdown then the post is pushed into the filtered array
+
   let filteredPosts = [];
 
   if (posts) {
-    // eslint-disable-next-line
     for (let i = 0; i < posts.length; i++) {
-      posts[i]["categories"].map((postCategory) => {
-        // eslint-disable-next-line
-        postCategory.name == category ? filteredPosts.push(posts[i]) : null
-      })
-
+      if (category == "all") {
+        filteredPosts.push(posts[i])
+      } else {
+        posts[i]["categories"].map((postCategory) => {
+          // eslint-disable-next-line
+          postCategory.name == category ? filteredPosts.push(posts[i]) : null
+        })
+      }
     };
   }
 
 
   console.log("filteredPosts", filteredPosts)
 
+   //---------------------------------------------------------------------------------------------------------------
+
   return (
+   
     <div>
+       <h1>Post Filter App</h1>
       <form className="filter">
         <label for="category">Choose a category:</label>
         <select name="category" id="category" onChange={(e) => handleFilterChange(e, "category")}>
@@ -92,16 +101,16 @@ function App() {
         </select>
       </form>
 
-      <h1>From Component</h1>
+    
       <ul>
-        {filteredPosts ? filteredPosts.map((post) => (
+        {filteredPosts ? filteredPosts.map((post, index) => (
           <ListItem
-            key={post.id}
+            key={index}
             title={post.title}
             summary={post.summary}
             author={post.author.name}
             date={post.publishDate}
-            categories={post.categories.map((category, index) => <a key={index}>{category.name}</a>)} />
+            categories={post.categories.map((category, index) => <p key={index}>{category.name}</p>)} />
         )) : null}
       </ul>
     </div>
